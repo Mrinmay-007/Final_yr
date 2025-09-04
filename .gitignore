@@ -1,0 +1,7 @@
+myenv
+a.ipynb
+__pycache__/
+*.pyc
+a.txt
+
+dataset
