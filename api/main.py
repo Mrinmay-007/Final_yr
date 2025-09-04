@@ -1,5 +1,48 @@
 
 
+# from fastapi import FastAPI, File, UploadFile
+# from fastapi.middleware.cors import CORSMiddleware
+# import uvicorn
+# import numpy as np
+# from io import BytesIO
+# from PIL import Image
+# import tensorflow as tf
+
+# app = FastAPI()
+
+
+
+
+# MODEL = tf.keras.models.load_model("../models/1")
+# CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
+
+# @app.get("/ping")
+# async def ping():
+#     return "Hello, I am alive"
+
+# def read_file_as_image(data) -> np.ndarray:
+#     image = np.array(Image.open(BytesIO(data)))
+#     return image
+
+# @app.post("/predict")
+# async def predict(
+#     file: UploadFile = File(...)
+# ):
+#     image = read_file_as_image(await file.read())
+#     img_batch = np.expand_dims(image, 0)
+    
+#     predictions = MODEL.predict(img_batch)
+
+#     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
+#     confidence = np.max(predictions[0])
+#     return {
+#         'class': predicted_class,
+#         'confidence': float(confidence)
+#     }
+
+# if __name__ == "__main__":
+#     uvicorn.run(app, host='localhost', port=8000)
+
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -7,48 +50,67 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import tensorflow as tf
+import os
 
 app = FastAPI()
 
-# origins = [
-#     "http://localhost",
-#     "http://localhost:3000",
-# ]
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+# Allow CORS (if you want to call the API from a frontend React/JS app)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change to your frontend domain in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# MODEL = tf.keras.models.load_model("../models/model_v1.h5")
-MODEL = tf.keras.models.load_model("../models/1.keras")
+# Path to your model (use .keras or .h5 format)
+MODEL_PATH= "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\V1.keras" # Update this path
+
+# MODEL_PATH = "../models/V1.keras"  # or "../models/1.h5"
+
+# Load the model depending on extension
+if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):
+    MODEL = tf.keras.models.load_model(MODEL_PATH)
+else:
+    # Fallback for TensorFlow SavedModel directory
+    MODEL = tf.keras.layers.TFSMLayer(MODEL_PATH, call_endpoint="serving_default")
+
+# Class names
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
+
 
 @app.get("/ping")
 async def ping():
-    return "Hello, I am alive"
+    return {"message": "Hello, World!"}
+
 
 def read_file_as_image(data) -> np.ndarray:
-    image = np.array(Image.open(BytesIO(data)))
-    return image
+    """Convert uploaded image bytes into a numpy array"""
+    image = Image.open(BytesIO(data)).convert("RGB")
+    image = image.resize((256, 256))  # resize if your model expects fixed size
+    return np.array(image)
+
 
 @app.post("/predict")
-async def predict(
-    file: UploadFile = File(...)
-):
+async def predict(file: UploadFile = File(...)):
+    # Read the uploaded image
     image = read_file_as_image(await file.read())
+
+    # Expand dimensions to create batch of size 1
     img_batch = np.expand_dims(image, 0)
-    
+
+    # Run prediction
     predictions = MODEL.predict(img_batch)
 
+    # Get class & confidence
     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
-    confidence = np.max(predictions[0])
+    confidence = float(np.max(predictions[0]))
+
     return {
-        'class': predicted_class,
-        'confidence': float(confidence)
+        "class": predicted_class,
+        "confidence": confidence
     }
 
+
 if __name__ == "__main__":
-    uvicorn.run(app, host='localhost', port=8000)
+    uvicorn.run(app, host="localhost", port=8000)
