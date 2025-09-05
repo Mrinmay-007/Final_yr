@@ -13,8 +13,6 @@ router = APIRouter()
 # Path to your model (use .keras or .h5 format)
 MODEL_PATH= "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\V1.keras" # Update this path
 
-# MODEL_PATH = "../models/V1.keras"  # or "../models/1.h5"
-
 # Load the model depending on extension
 if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):
     MODEL = tf.keras.models.load_model(MODEL_PATH)
