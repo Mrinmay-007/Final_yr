@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware #type: ignore
 import uvicorn #type: ignore
 import os
 
-from api.routers import prediction,detection
+from api.routers import prediction,detection,detect_yolo
 
 app = FastAPI()
 
@@ -25,6 +25,7 @@ app.add_middleware(
 
 app.include_router(prediction.router)
 app.include_router(detection.router)
+app.include_router(detect_yolo.router)
 
 # ======================
 # Main

@@ -16,10 +16,10 @@ MODEL_PATH= your_path + "V1.keras" # Update this path
 
 # Load the model depending on extension
 if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):
-    MODEL = tf.keras.models.load_model(MODEL_PATH)
+    MODEL = tf.keras.models.load_model(MODEL_PATH) #type:ignore
 else:
     # Fallback for TensorFlow SavedModel directory
-    MODEL = tf.keras.layers.TFSMLayer(MODEL_PATH, call_endpoint="serving_default")
+    MODEL = tf.keras.layers.TFSMLayer(MODEL_PATH, call_endpoint="serving_default") #type:ignore
 
 # Class names
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
