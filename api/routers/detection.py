@@ -9,9 +9,9 @@ import tensorflow as tf  #type: ignore
 
 router = APIRouter()
 
-
+your_path = "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\"
 # Path to your model (use .keras or .h5 format)
-MODEL_PATH= "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\detect_V1.keras" # Update this path
+MODEL_PATH= your_path + "detect_V2.keras" # Update this path
 
 # Load the model depending on extension
 if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):

@@ -11,7 +11,8 @@ router = APIRouter()
 
 
 # Path to your model (use .keras or .h5 format)
-MODEL_PATH= "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\V1.keras" # Update this path
+your_path = "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\"
+MODEL_PATH= your_path + "V1.keras" # Update this path
 
 # Load the model depending on extension
 if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):
