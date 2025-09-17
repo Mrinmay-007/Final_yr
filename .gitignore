@@ -12,4 +12,7 @@ detect_data
 notebook/runs
 notebook/Disease-Plant-Leaf-1
 notebook/PotatoData
+notebook/detect.ipynb
+notebook/detect2.ipynb
 notebook/yolov8n-cls.pt
+notebook

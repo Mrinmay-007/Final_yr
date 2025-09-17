@@ -9,7 +9,7 @@ router = APIRouter()
 # your_path = "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\"
 
 
-model = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\models\yolo\best.pt")
+model = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\models\yolo\best2.pt")
 
 @router.post("/detect_yolo/")
 async def predict(file: UploadFile = File(...)):
