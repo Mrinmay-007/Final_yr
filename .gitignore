@@ -9,5 +9,7 @@ leaves_data
 not
 
 detect_data
-notebook
-note
+notebook/runs
+notebook/Disease-Plant-Leaf-1
+notebook/PotatoData
+notebook/yolov8n-cls.pt
