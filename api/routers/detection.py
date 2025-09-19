@@ -29,6 +29,8 @@ CLASS_NAMES = ["Not Potato", "Potato"]
 #     return {"message": "Hello, World!"}
 
 
+
+
 def read_file_as_image(data) -> np.ndarray:
     """Convert uploaded image bytes into a numpy array"""
     image = Image.open(BytesIO(data)).convert("RGB")
