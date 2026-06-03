@@ -1,0 +1,15 @@
+myenv
+a.ipynb
+__pycache__/
+*.pyc
+a.txt
+abc.ipynb
+dataset
+leaves_data
+
+notebook
+detect_yolo.py
+detect_data
+notebook/runs
+
+notebook/*
