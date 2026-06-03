@@ -13,4 +13,5 @@ detect_data
 notebook/runs
 
 notebook/*
+dummy
 dummy/*
