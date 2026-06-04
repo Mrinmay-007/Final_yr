@@ -55,3 +55,52 @@ async def get_prediction_history(user_id: str, db: AsyncIOMotorDatabase = Depend
         history.append(record)
     return history
 
+
+@router.get("/dashboard/{user_id}")
+async def get_dashboard_data(
+    user_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+
+    total_predictions = await db["prediction"].count_documents(
+        {"user_id": user_id}
+    )
+
+    # Disease-wise counts
+    pipeline = [
+        {
+            "$match": {"user_id": user_id}
+        },
+        {
+            "$group": {
+                "_id": "$class",
+                "count": {"$sum": 1}
+            }
+        }
+    ]
+
+    disease_stats = await db["prediction"].aggregate(pipeline).to_list(length=None)
+
+    # Date-wise history
+    history_pipeline = [
+        {
+            "$match": {"user_id": user_id}
+        },
+        {
+            "$group": {
+                "_id": "$prediction_date",
+                "count": {"$sum": 1}
+            }
+        },
+        {
+            "$sort": {"_id": 1}
+        }
+    ]
+
+    history_data = await db["prediction"].aggregate(history_pipeline).to_list(length=None)
+
+    return {
+        "total_predictions": total_predictions,
+        "disease_stats": disease_stats,
+        "history_data": history_data
+    }
