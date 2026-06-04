@@ -8,7 +8,10 @@ import tensorflow as tf  #type: ignore
 import os
 import cv2
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/predict",
+    tags=["Prediction"]
+)
 
 
 # Path to your model (use .keras or .h5 format)
@@ -82,7 +85,7 @@ def get_severity_from_bytes(image_bytes: bytes) -> tuple[str, float]:
     return severity, ratio
 
 
-@router.post("/predict")
+@router.post("/")
 async def predict(file: UploadFile = File(...)):
     # Read file bytes once (efficient)
     file_bytes = await file.read()

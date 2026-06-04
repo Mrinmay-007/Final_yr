@@ -10,7 +10,10 @@
 from fastapi import APIRouter, HTTPException, Query
 from googletrans import Translator
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/translate",
+    tags=["Translation"]
+)
 translator = Translator()
 
 # Supported Indian languages and their language codes for Google Translate
@@ -40,7 +43,7 @@ SUPPORTED_LANGUAGES = {
 }
 
 
-@router.get("/translate")
+@router.get("/")
 async def translate_text(
     text: str = Query(..., description="Text to translate (English)"),
     target_language: str = Query(..., description="Target Indian language name (e.g., 'hindi')")

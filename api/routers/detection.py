@@ -9,7 +9,10 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/detect",
+    tags=["Detection"]
+)
 
 # Load YOLO models
 model = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\models\yolo\best.pt")
@@ -35,7 +38,7 @@ def preprocess_image(img_path, target_size=(224, 224)):
     return img_array
 
 
-@router.post("/detect")
+@router.post("/")
 async def detect(file: UploadFile = File(...)):
     # Save uploaded image temporarily
     temp_file = f"temp_{file.filename}"

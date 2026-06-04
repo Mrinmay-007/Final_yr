@@ -12,3 +12,11 @@
 ###### or
 ### uvicorn api.main:app --reload
 
+
+
+### 🟢🟢 changed
+--------------
+#####  /weather --> weather/current
+#####  /compatible_weather --> weather/compatible
+
+

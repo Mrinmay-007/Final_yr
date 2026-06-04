@@ -3,13 +3,16 @@ from fastapi import APIRouter, Depends
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from ..db import get_db
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/users",
+    tags=["Users"]
+)
 
-@router.get("/")
+@router.get("/testing")
 async def root():
     return {"message": "Hello, MongoDB + FastAPI"}
 
-@router.get("/users")
+@router.get("/")
 async def get_users(db: AsyncIOMotorDatabase = Depends(get_db)):
     users = []
     cursor = db["users"].find({})
@@ -18,7 +21,7 @@ async def get_users(db: AsyncIOMotorDatabase = Depends(get_db)):
         users.append(user)
     return users
 
-@router.post("/users")
+@router.post("/")
 async def create_user(user: dict, db: AsyncIOMotorDatabase = Depends(get_db)):
     result = await db["users"].insert_one(user)
     return {"id": str(result.inserted_id)}

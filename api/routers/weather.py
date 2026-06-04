@@ -111,14 +111,17 @@ def weather():
     except requests.RequestException as e:
         raise HTTPException(status_code=502, detail=f"Weather API error: {e}")
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/weather",
+    tags=["Weather"]
+)
 
-@router.get("/weather")
+@router.get("/current")
 async def get_weather():
    data = weather()
    return data
     
-@router.get("/compatible_weather")
+@router.get("/compatible")
 async def get_compatible_weather(leaf: str):
     data = weather()
 
