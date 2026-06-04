@@ -34,11 +34,11 @@ async def save_prediction(
         "severity": log.severity,
         "infected_ratio": round(log.ratio, 2),
 
-        # Separate date and time
         "prediction_date": india_time.strftime("%d-%m-%Y"),
-        "prediction_time": india_time.strftime("%I:%M:%S %p")
-    }
+        "prediction_time": india_time.strftime("%I:%M:%S %p"),
 
+        "created_at": india_time
+    }
     result = await db["prediction"].insert_one(prediction_data)
 
     return {
@@ -54,3 +54,4 @@ async def get_prediction_history(user_id: str, db: AsyncIOMotorDatabase = Depend
         record["_id"] = str(record["_id"])
         history.append(record)
     return history
+
