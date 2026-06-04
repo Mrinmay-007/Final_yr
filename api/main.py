@@ -7,7 +7,7 @@ import os
 
 # ============================
 from .db import connect_to_mongo, close_mongo_connection
-from api.routers import prediction,detection,logbook,weather,lang
+from api.routers import prediction,detection,logbook, user,weather,lang
 # ============================
 app = FastAPI()
 
@@ -49,6 +49,7 @@ app.include_router(prediction.router)
 app.include_router(detection.router)
 # app.include_router(detect_yolo.router)
 app.include_router(logbook.router)
+app.include_router(user.router)
 app.include_router(weather.router)
 app.include_router(lang.router)
 # ======================

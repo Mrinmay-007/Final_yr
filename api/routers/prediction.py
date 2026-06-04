@@ -10,7 +10,7 @@ import cv2
 
 router = APIRouter(
     prefix="/predict",
-    tags=["Prediction"]
+    tags=["Disease Prediction"]
 )
 
 
