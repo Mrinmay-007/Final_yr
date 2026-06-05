@@ -19,7 +19,7 @@ class Hash:
 
     @staticmethod
     def verify(
-        plain_password: str,   # FIXED ORDER
+        plain_password: str,   
         hashed_password: str
     ):
         return pwd_cxt.verify(
