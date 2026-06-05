@@ -11,14 +11,7 @@ from api.routers import prediction,detection,logbook, user,weather,lang
 # ============================
 app = FastAPI()
 
-# Allow CORS (if you want to call the API from a frontend React/JS app)
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # Change to your frontend domain in production
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+
 
 app.add_middleware(
     CORSMiddleware,
