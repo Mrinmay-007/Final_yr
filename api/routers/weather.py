@@ -117,12 +117,13 @@ router = APIRouter(
     prefix="/weather",
     tags=["Weather"]
 )
-
+# /weather/current
 @router.get("/current")
 async def get_weather():
    data = weather()
    return data
-    
+
+# /weather/compatible
 @router.get("/compatible")
 async def get_compatible_weather(leaf: str):
     data = weather()

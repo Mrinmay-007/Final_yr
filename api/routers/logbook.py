@@ -46,6 +46,7 @@ async def save_prediction(
         "id": str(result.inserted_id)
     }
 
+
 @router.get("/history/{user_id}")
 async def get_prediction_history(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     history = []
@@ -55,7 +56,7 @@ async def get_prediction_history(user_id: str, db: AsyncIOMotorDatabase = Depend
         history.append(record)
     return history
 
-
+# ignore
 @router.get("/dashboard/{user_id}")
 async def get_dashboard_data(
     user_id: str,
