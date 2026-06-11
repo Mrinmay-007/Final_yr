@@ -9,7 +9,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from pymongo import ReturnDocument   
 
-from db import get_db
+from ...db import get_db
 from ..auth.hashing import Hash   
 
 import random
