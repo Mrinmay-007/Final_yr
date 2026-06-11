@@ -4,13 +4,12 @@ __pycache__/
 *.pyc
 a.txt
 abc.ipynb
-dataset
-leaves_data
+
 *.ipynb
-notebook
+
 detect_yolo.py
-detect_data
-notebook/runs
+
+
 
 
 
