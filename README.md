@@ -8,9 +8,9 @@
 
 ## step 3
 ------------
-### fastapi dev api/main.py
+### fastapi dev main.py
 ###### or
-### uvicorn api.main:app --reload
+### uvicorn main:app --reload
 
 
 

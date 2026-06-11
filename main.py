@@ -6,8 +6,8 @@ import uvicorn #type: ignore
 import os
 
 # ============================
-from .db import connect_to_mongo, close_mongo_connection
-from .api.routers import logbook, user,weather,lang,prediction,detection
+from db import connect_to_mongo, close_mongo_connection
+from api.routers import logbook, user,weather,lang,prediction,detection
 
 
 # ============================
