@@ -54,7 +54,7 @@ async def translate_text(
         return {
             "source_language": "English",
             "target_language": target_language.capitalize(),
-            "translated_text": translated.text
+            "translated_text": translated.text 
         }
 
     except Exception as e:
