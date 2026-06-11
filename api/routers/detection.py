@@ -1,7 +1,35 @@
 
 
 
-from fastapi import FastAPI, UploadFile, File, APIRouter
+# from fastapi import FastAPI, UploadFile, File, APIRouter
+# from ultralytics import YOLO
+# import shutil
+# import os
+# import numpy as np
+# import tensorflow as tf
+# from PIL import Image
+
+# router = APIRouter(
+#     prefix="/detect",
+#     tags=["Detection"]
+# )
+
+# # Load YOLO models
+# model = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\yolo\best.pt")
+# model2 = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\yolo\best2.pt")
+
+# # Load Keras/TensorFlow model
+# CLASS_NAMES = ["Not Potato", "Potato"]
+# your_path = r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\\"
+# MODEL_PATH = your_path + "detect_V2.keras"
+
+# if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):
+#     MODEL = tf.keras.models.load_model(MODEL_PATH)  # type: ignore
+# else:
+#     MODEL = tf.keras.layers.TFSMLayer(MODEL_PATH, call_endpoint="serving_default")  # type: ignore
+
+
+from fastapi import APIRouter, UploadFile, File
 from ultralytics import YOLO
 import shutil
 import os
@@ -14,19 +42,34 @@ router = APIRouter(
     tags=["Detection"]
 )
 
-# Load YOLO models
-model = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\yolo\best.pt")
-model2 = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\yolo\best2.pt")
+# =====================================================
+# Paths (Linux + Windows compatible)
+# =====================================================
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Load Keras/TensorFlow model
+# routers -> api
+API_DIR = os.path.dirname(CURRENT_DIR)
+
+# api -> project root
+PROJECT_ROOT = os.path.dirname(API_DIR)
+
+
+YOLO_MODEL_1 = os.path.join(PROJECT_ROOT, "ml_models/yolo", "best.pt")
+YOLO_MODEL_2 = os.path.join(PROJECT_ROOT, "ml_models/yolo", "best2.pt")
+KERAS_MODEL = os.path.join(PROJECT_ROOT, "ml_models", "detect_V2.keras")
+
+# =====================================================
+# Load Models
+# =====================================================
+
+model = YOLO(YOLO_MODEL_1)
+model2 = YOLO(YOLO_MODEL_2)
+
+MODEL = tf.keras.models.load_model(KERAS_MODEL)
+
 CLASS_NAMES = ["Not Potato", "Potato"]
-your_path = r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\\"
-MODEL_PATH = your_path + "detect_V2.keras"
 
-if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):
-    MODEL = tf.keras.models.load_model(MODEL_PATH)  # type: ignore
-else:
-    MODEL = tf.keras.layers.TFSMLayer(MODEL_PATH, call_endpoint="serving_default")  # type: ignore
+
 
 
 def preprocess_image(img_path, target_size=(224, 224)):

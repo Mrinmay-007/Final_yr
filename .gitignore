@@ -12,9 +12,6 @@ detect_yolo.py
 detect_data
 notebook/runs
 
-notebook/*
-dummy
-dummy/*
 
 
 
