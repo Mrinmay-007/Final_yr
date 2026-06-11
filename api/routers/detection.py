@@ -141,11 +141,110 @@
         
 #         "final_decision": final_decision
 #     }
+
+# -------------------------------------------------------------
+# from fastapi import APIRouter, UploadFile, File
+# from ultralytics import YOLO
+# import shutil
+# import os
+# import tempfile  # ✅ FIX 2: Use tempfile for cross-platform temp paths (Windows + Linux)
+# import numpy as np
+# import tensorflow as tf
+# from PIL import Image
+
+# router = APIRouter(
+#     prefix="/detect",
+#     tags=["Detection"]
+# )
+
+# # =====================================================
+# # Paths (Linux + Windows compatible)
+# # =====================================================
+# CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+# API_DIR = os.path.dirname(CURRENT_DIR)
+# PROJECT_ROOT = os.path.dirname(API_DIR)
+
+# YOLO_MODEL_1 = os.path.join(PROJECT_ROOT, "ml_models/yolo", "best.pt")
+# YOLO_MODEL_2 = os.path.join(PROJECT_ROOT, "ml_models/yolo", "best2.pt")
+# KERAS_MODEL = os.path.join(PROJECT_ROOT, "ml_models", "detect_V2.keras")
+
+# # =====================================================
+# # Load Models
+# # =====================================================
+
+# model = YOLO(YOLO_MODEL_1)
+# model2 = YOLO(YOLO_MODEL_2)
+
+# # ✅ FIX 1: Added compile=False to skip optimizer state loading (fixes crash-loop warning)
+# MODEL = tf.keras.models.load_model(KERAS_MODEL, compile=False)
+
+# CLASS_NAMES = ["Not Potato", "Potato"]
+
+
+# def preprocess_image(img_path, target_size=(224, 224)):
+#     """Load and preprocess image for Keras model"""
+#     img = Image.open(img_path).convert("RGB")
+#     img = img.resize(target_size)
+#     img_array = np.array(img) / 255.0
+#     img_array = np.expand_dims(img_array, axis=0)
+#     return img_array
+
+
+# @router.post("/")
+# async def detect(file: UploadFile = File(...)):
+#     # ✅ FIX 2: Use tempfile.NamedTemporaryFile — works on both Windows and Linux/cloud
+#     suffix = os.path.splitext(file.filename)[-1] or ".jpg"
+#     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+#         shutil.copyfileobj(file.file, tmp)
+#         temp_path = tmp.name
+
+#     try:
+#         # Run YOLO predictions
+#         results = model.predict(temp_path)
+#         results2 = model2.predict(temp_path)
+
+#         # Preprocess and run TensorFlow model prediction
+#         img_array = preprocess_image(temp_path, target_size=(224, 224))
+#         results3 = MODEL.predict(img_array)
+#     finally:
+#         # Clean up temp file (always runs, even if an error occurs)
+#         os.remove(temp_path)
+
+#     # ✅ FIX 3: Moved all post-processing INSIDE the function (was outside/unreachable before)
+
+#     # YOLOv8 Model 1
+#     pred_class = results[0].names[results[0].probs.top1]
+#     conf1 = float(results[0].probs.top1conf)
+#     is_potato1 = pred_class.lower() == "potato"
+#     confidence1 = conf1
+
+#     # YOLOv8 Model 2
+#     pred_class2 = results2[0].names[results2[0].probs.top1]
+#     conf2 = float(results2[0].probs.top1conf)
+#     is_potato2 = pred_class2.lower() == "potato"
+#     confidence2 = conf2
+
+#     # TensorFlow Model
+#     pred_class3 = CLASS_NAMES[np.argmax(results3[0])]
+#     conf3 = float(np.max(results3[0]))
+#     is_potato3 = pred_class3.lower() == "potato"
+#     confidence3 = conf3
+
+#     # Majority Voting
+#     votes = [is_potato1, is_potato2, is_potato3]
+#     final_decision = "Potato" if votes.count(True) >= 2 else "Not Potato"
+
+#     return {
+#         "final_decision": final_decision
+#     }
+    
+    #==================================================== 
+    
 from fastapi import APIRouter, UploadFile, File
 from ultralytics import YOLO
 import shutil
 import os
-import tempfile  # ✅ FIX 2: Use tempfile for cross-platform temp paths (Windows + Linux)
+import tempfile  # ✅ FIX 2: cross-platform temp files
 import numpy as np
 import tensorflow as tf
 from PIL import Image
@@ -164,19 +263,33 @@ PROJECT_ROOT = os.path.dirname(API_DIR)
 
 YOLO_MODEL_1 = os.path.join(PROJECT_ROOT, "ml_models/yolo", "best.pt")
 YOLO_MODEL_2 = os.path.join(PROJECT_ROOT, "ml_models/yolo", "best2.pt")
-KERAS_MODEL = os.path.join(PROJECT_ROOT, "ml_models", "detect_V2.keras")
-
-# =====================================================
-# Load Models
-# =====================================================
-
-model = YOLO(YOLO_MODEL_1)
-model2 = YOLO(YOLO_MODEL_2)
-
-# ✅ FIX 1: Added compile=False to skip optimizer state loading (fixes crash-loop warning)
-MODEL = tf.keras.models.load_model(KERAS_MODEL, compile=False)
+KERAS_MODEL  = os.path.join(PROJECT_ROOT, "ml_models", "detect_V2.keras")
 
 CLASS_NAMES = ["Not Potato", "Potato"]
+
+# =====================================================
+# ✅ FIX 3: Lazy model loading — models load on first request, not at startup.
+#    Avoids OOM crash on FastAPI Cloud CPU-only containers with limited RAM.
+#    Previously all 3 models (2x YOLO + 1x Keras) loaded at import time,
+#    consuming too much memory before the server could even start accepting requests.
+# =====================================================
+_model  = None
+_model2 = None
+_MODEL  = None
+
+def get_models():
+    global _model, _model2, _MODEL
+    if _model is None:
+        print("Loading YOLO model 1...")
+        _model = YOLO(YOLO_MODEL_1)
+    if _model2 is None:
+        print("Loading YOLO model 2...")
+        _model2 = YOLO(YOLO_MODEL_2)
+    if _MODEL is None:
+        print("Loading Keras model...")
+        _MODEL = tf.keras.models.load_model(KERAS_MODEL, compile=False)  # ✅ FIX 1: compile=False
+        print("All models loaded.")
+    return _model, _model2, _MODEL
 
 
 def preprocess_image(img_path, target_size=(224, 224)):
@@ -190,7 +303,10 @@ def preprocess_image(img_path, target_size=(224, 224)):
 
 @router.post("/")
 async def detect(file: UploadFile = File(...)):
-    # ✅ FIX 2: Use tempfile.NamedTemporaryFile — works on both Windows and Linux/cloud
+
+    model, model2, MODEL = get_models()  # ✅ FIX 3: Lazy load here
+
+    # ✅ FIX 2: tempfile.NamedTemporaryFile — works on Windows (%TEMP%) and Linux (/tmp)
     suffix = os.path.splitext(file.filename)[-1] or ".jpg"
     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
         shutil.copyfileobj(file.file, tmp)
@@ -198,38 +314,33 @@ async def detect(file: UploadFile = File(...)):
 
     try:
         # Run YOLO predictions
-        results = model.predict(temp_path)
+        results  = model.predict(temp_path)
         results2 = model2.predict(temp_path)
 
         # Preprocess and run TensorFlow model prediction
         img_array = preprocess_image(temp_path, target_size=(224, 224))
-        results3 = MODEL.predict(img_array)
+        results3  = MODEL.predict(img_array)
     finally:
-        # Clean up temp file (always runs, even if an error occurs)
-        os.remove(temp_path)
+        os.remove(temp_path)  # Always clean up, even on error
 
-    # ✅ FIX 3: Moved all post-processing INSIDE the function (was outside/unreachable before)
-
+    # ✅ FIX 4 (from previous session): All post-processing is INSIDE the function
     # YOLOv8 Model 1
-    pred_class = results[0].names[results[0].probs.top1]
-    conf1 = float(results[0].probs.top1conf)
-    is_potato1 = pred_class.lower() == "potato"
-    confidence1 = conf1
+    pred_class  = results[0].names[results[0].probs.top1]
+    conf1       = float(results[0].probs.top1conf)
+    is_potato1  = pred_class.lower() == "potato"
 
     # YOLOv8 Model 2
     pred_class2 = results2[0].names[results2[0].probs.top1]
-    conf2 = float(results2[0].probs.top1conf)
-    is_potato2 = pred_class2.lower() == "potato"
-    confidence2 = conf2
+    conf2       = float(results2[0].probs.top1conf)
+    is_potato2  = pred_class2.lower() == "potato"
 
     # TensorFlow Model
     pred_class3 = CLASS_NAMES[np.argmax(results3[0])]
-    conf3 = float(np.max(results3[0]))
-    is_potato3 = pred_class3.lower() == "potato"
-    confidence3 = conf3
+    conf3       = float(np.max(results3[0]))
+    is_potato3  = pred_class3.lower() == "potato"
 
     # Majority Voting
-    votes = [is_potato1, is_potato2, is_potato3]
+    votes          = [is_potato1, is_potato2, is_potato3]
     final_decision = "Potato" if votes.count(True) >= 2 else "Not Potato"
 
     return {
