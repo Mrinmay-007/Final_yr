@@ -7,7 +7,7 @@ import os
 
 # ============================
 from .db import connect_to_mongo, close_mongo_connection
-from api.routers import prediction,detection,logbook, user,weather,lang
+from .api.routers import prediction,detection,logbook, user,weather,lang
 # ============================
 app = FastAPI()
 

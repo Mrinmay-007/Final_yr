@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from ..db import get_db
+from ...db import get_db
 from pydantic import BaseModel
 
 router = APIRouter(

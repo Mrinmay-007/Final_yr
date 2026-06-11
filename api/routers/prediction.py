@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 # Path to your model (use .keras or .h5 format)
-your_path = "D:\\USER\\OneDrive\\Desktop\\Final_yr\\models\\"
+your_path = "D:\\USER\\OneDrive\\Desktop\\Final_yr\\api\\ml_models\\"
 MODEL_PATH= your_path + "V1.keras" # Update this path
 
 # Load the model depending on extension

@@ -15,12 +15,12 @@ router = APIRouter(
 )
 
 # Load YOLO models
-model = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\models\yolo\best.pt")
-model2 = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\models\yolo\best2.pt")
+model = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\yolo\best.pt")
+model2 = YOLO(r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\yolo\best2.pt")
 
 # Load Keras/TensorFlow model
 CLASS_NAMES = ["Not Potato", "Potato"]
-your_path = r"D:\USER\OneDrive\Desktop\Final_yr\models\\"
+your_path = r"D:\USER\OneDrive\Desktop\Final_yr\api\ml_models\\"
 MODEL_PATH = your_path + "detect_V2.keras"
 
 if MODEL_PATH.endswith(".keras") or MODEL_PATH.endswith(".h5"):
