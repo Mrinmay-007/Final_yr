@@ -30,7 +30,7 @@
 ----
 
 #### server2 -- ml model <br>
-server2-production-611b.up.railway.app   <br>
+https://server2-production-611b.up.railway.app/  <br>
 
 #### server1 -- user and other feature <br>
 https://server1.fastapicloud.dev  <br>
