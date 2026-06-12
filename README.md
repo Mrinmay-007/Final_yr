@@ -25,4 +25,14 @@
 #####  /weather --> weather/current
 #####  /compatible_weather --> weather/compatible
 
+---
+## Deployed Url
+----
 
+#### server2 -- ml model
+server2-production-611b.up.railway.app
+
+#### server1 -- user and other feature
+https://server1.fastapicloud.dev
+https://potato-api.dev/
+https://server-511b3f14.fastapicloud.dev/
