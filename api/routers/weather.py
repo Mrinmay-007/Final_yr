@@ -46,7 +46,7 @@ async def get_forecast():
 @router.get("/compatible")
 async def get_disease_risk(leaf: str):
     forecast_data = forecast()
-    risk_analysis = analyze_disease_risk(forecast_data, leaf)
+    risk_analysis = analyze_disease_risk(leaf)
     return risk_analysis
 
 from .risk import analyze_disease_risk,predict_threat

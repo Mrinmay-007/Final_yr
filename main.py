@@ -8,7 +8,7 @@ import os
 # ============================
 from .db import connect_to_mongo, close_mongo_connection
 from .model_loader import load_model
-from .api.routers import logbook, user,weather,lang
+from .api.routers import logbook, user,weather,lang,treatment
 
 
 # ============================
@@ -49,7 +49,7 @@ app.include_router(logbook.router)
 app.include_router(user.router)
 app.include_router(weather.router)
 app.include_router(lang.router)
-# app.include_router(treatment.router)
+app.include_router(treatment.router)
 # app.include_router(recommendation.router)
 
 

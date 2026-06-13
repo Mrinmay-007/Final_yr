@@ -2,7 +2,7 @@ import statistics
 import joblib
 from pathlib import Path
 import numpy as np
-from .weather2 import forecast_input
+from .weather2 import forecast_input,forecast
 
 from ... import model_loader
 
@@ -67,13 +67,13 @@ def late_blight_score(temp, humidity, rainfall, cloud):
 
     return score
 
-def analyze_disease_risk(forecast, leaf):
-
+def analyze_disease_risk( leaf):
+    forecast_data = forecast()
     scores = []
     max_score = 0
     critical_time = None
 
-    for item in forecast["forecast"]:
+    for item in forecast_data["forecast"]:
 
         temp = float(item["temperature"]["current"].split()[0])
         humidity = float(item["humidity"].replace("%", "").strip())

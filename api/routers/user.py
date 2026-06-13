@@ -176,3 +176,5 @@ async def delete_user(
             "message": "User deleted successfully"}
 
     return {"message": "User not found"}
+
+
