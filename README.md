@@ -33,6 +33,9 @@
 https://server2-production-611b.up.railway.app/  <br>
 
 #### server1 -- user and other feature <br>
+https://server-511b3f14.fastapicloud.dev/   <br>
+
+
+### dont use <br>
 https://server1.fastapicloud.dev  <br>
 https://potato-api.dev/   <br>
-https://server-511b3f14.fastapicloud.dev/   <br>
