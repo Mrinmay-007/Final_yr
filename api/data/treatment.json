@@ -1,0 +1,230 @@
+{
+  "Healthy": {
+    "disease_name": "Healthy Potato Leaf",
+    "severity": "None",
+    "description": "The potato plant is healthy with no visible disease symptoms.",
+    "treatment": {
+      "recommendations": [
+        "Continue regular monitoring.",
+        "Use certified disease-free seed.",
+        "Maintain balanced fertilization.",
+        "Follow proper irrigation practices.",
+        "Keep the field weed-free."
+      ]
+    }
+  },
+
+  "Early Blight": {
+    "disease_name": "Early Blight",
+    "scientific_name": "Alternaria solani",
+    "severity": "Moderate",
+    "description": "A fungal disease causing dark brown lesions with concentric rings on leaves.",
+
+    "treatment": {
+      "cultural_practices": [
+        "Rotate with non-host crops such as corn, soybean, and small grains for 2-3 seasons.",
+        "Remove weed hosts such as nightshade and horsenettle.",
+        "Use certified disease-free seed.",
+        "Practice fall tillage to bury infected crop residue.",
+        "Time irrigation to minimize leaf wetness duration.",
+        "Maintain adequate nitrogen nutrition.",
+        "Reduce plant stress through proper disease and nutrient management.",
+        "Store harvested tubers under conditions that promote rapid suberization."
+      ],
+
+      "monitoring": [
+        "Begin field scouting once plants reach 12 inches in height.",
+        "Disease risk increases after 300 physiological days (P-Days) following crop emergence."
+      ],
+
+      "advanced_fungicides": [
+        {
+          "product": "Luna Pro Fungicide",
+          "active_ingredients": [
+            "Fluopyram",
+            "Prothioconazole"
+          ],
+          "frac_group": ["7", "3"],
+          "phi_days": 17
+        },
+        {
+          "product": "Luna Tranquility Fungicide",
+          "active_ingredients": [
+            "Fluopyram",
+            "Pyrimethanil"
+          ],
+          "frac_group": ["7", "9"],
+          "phi_days": 7
+        },
+        {
+          "product": "Previcur Flex Fungicide",
+          "active_ingredients": [
+            "Propamocarb Hydrochloride"
+          ],
+          "frac_group": ["28"],
+          "phi_days": 14
+        },
+        {
+          "product": "Scala SC Fungicide",
+          "active_ingredients": [
+            "Pyrimethanil"
+          ],
+          "frac_group": ["9"],
+          "phi_days": 7
+        },
+        {
+          "product": "Serenade ASO",
+          "active_ingredients": [
+            "Bacillus subtilis strain QST 713"
+          ],
+          "frac_group": ["44"],
+          "phi_days": 0
+        },
+        {
+          "product": "Velum Prime",
+          "active_ingredients": [
+            "Fluopyram"
+          ],
+          "frac_group": ["7"],
+          "phi_days": 7
+        },
+        {
+          "product": "Velum Rise Fungicide",
+          "active_ingredients": [
+            "Fluopyram",
+            "Penflufen"
+          ],
+          "frac_group": ["7", "7"],
+          "phi_days": "In Furrow"
+        }
+      ],
+
+      "recommendations": [
+        "Apply foliar fungicides preventively.",
+        "Rotate fungicides with different FRAC groups to prevent resistance.",
+        "Ensure complete canopy coverage during spraying."
+      ]
+    }
+  },
+
+  "Late Blight": {
+    "disease_name": "Late Blight",
+    "scientific_name": "Phytophthora infestans",
+    "severity": "High",
+    "description": "A highly destructive disease that rapidly spreads under cool and humid conditions.",
+
+    "treatment": {
+      "sanitation": [
+        "Destroy infected tubers and cull piles.",
+        "Bury infected material deep in soil.",
+        "Reduce inoculum sources around storage facilities."
+      ],
+
+      "healthy_seed": [
+        "Use only certified disease-free seed.",
+        "Sort and destroy infected tubers before storage.",
+        "Inspect seed tubers during harvesting and grading.",
+        "Keep harvested tubers in the field for 7-15 days before storage."
+      ],
+
+      "cultural_practices": [
+        "Practice proper hilling and earthing up.",
+        "Destroy infected foliage 2-3 weeks before harvest.",
+        "Use wider row spacing to reduce humidity.",
+        "Orient rows toward sunlight when possible.",
+        "Advance planting dates when suitable.",
+        "Harvest 2-3 weeks after dehaulming."
+      ],
+
+      "resistant_varieties": {
+        "moderately_resistant": [
+          "Kufri Jyoti",
+          "Kufri Sutluj",
+          "Kufri Badshah",
+          "Kufri Chipsona-1",
+          "Kufri Chipsona-2"
+        ],
+
+        "susceptible": [
+          "Kufri Ashoka",
+          "Kufri Chandramukhi",
+          "Kufri Bahar",
+          "Kufri Pukhraj"
+        ]
+      },
+
+      "protectant_fungicides": [
+        {
+          "name": "Mancozeb (Indofil M-45 / Mass M-45 / Markzeb)",
+          "dosage": "500-700 g/acre"
+        },
+        {
+          "name": "Chlorothalonil (Kavach)",
+          "dosage": "500-700 g/acre"
+        },
+        {
+          "name": "Propineb (Antracol)",
+          "dosage": "500-700 g/acre"
+        },
+        {
+          "name": "Blitox-50 / Markcopper",
+          "dosage": "750-1000 g/acre"
+        }
+      ],
+
+      "systemic_fungicides": [
+        {
+          "name": "Ridomil Gold",
+          "composition": "8% Mefenoxam + 64% Mancozeb",
+          "dosage": "700 g/acre"
+        },
+        {
+          "name": "Curzate M-8",
+          "composition": "8% Cymoxanil + 64% Mancozeb",
+          "dosage": "700 g/acre"
+        },
+        {
+          "name": "Sectin",
+          "composition": "10% Fenamidone + 50% Mancozeb",
+          "dosage": "700 g/acre"
+        },
+        {
+          "name": "Revus",
+          "composition": "Mandipropamid 250 SC",
+          "dosage": "200 ml/acre"
+        },
+        {
+          "name": "Equation Pro",
+          "composition": "16.6% Famoxadone + 22.1% Cymoxanil",
+          "dosage": "200 ml/acre"
+        }
+      ],
+
+      "spray_schedule": {
+        "low_to_moderate_risk": [
+          "Start spraying in the first week of November before disease appearance.",
+          "Apply Mancozeb, Kavach, Antracol or Blitox-50.",
+          "Repeat every 7 days.",
+          "Up to 5 additional sprays may be required."
+        ],
+
+        "high_risk": [
+          "Use Ridomil Gold, Curzate M-8, Sectin, Revus or Equation Pro as the 3rd and 4th sprays.",
+          "Maintain 10-day intervals between systemic fungicide sprays.",
+          "Follow with a protectant fungicide spray."
+        ],
+
+        "successive_or_spring_crop": [
+          "Use Ridomil Gold as the first spray.",
+          "Follow with weekly Mancozeb sprays."
+        ]
+      },
+
+      "caution": [
+        "Do not use reduced doses of Ridomil Gold.",
+        "Do not prepare self-made mixtures of Metalaxyl and Mancozeb.",
+        "Improper usage can lead to fungicide-resistant pathogen strains."
+      ]
+    }
+  }
+}

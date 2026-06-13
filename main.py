@@ -7,6 +7,7 @@ import os
 
 # ============================
 from .db import connect_to_mongo, close_mongo_connection
+from .model_loader import load_model
 from .api.routers import logbook, user,weather,lang
 
 
@@ -32,22 +33,26 @@ app.add_middleware(
 async def startup_event():
     await connect_to_mongo()
 
+    load_model()
+
 @app.on_event("shutdown")
 async def shutdown_event():
     await close_mongo_connection()
     
+    
+    
 # ======================
 #  API Router
 # ======================
- 
-# app.include_router(prediction.router)
-# app.include_router(detection.router)
 
-# app.include_router(detect_yolo.router)
 app.include_router(logbook.router)
 app.include_router(user.router)
 app.include_router(weather.router)
 app.include_router(lang.router)
+# app.include_router(treatment.router)
+# app.include_router(recommendation.router)
+
+
 # ======================
 # Main
 # ======================
