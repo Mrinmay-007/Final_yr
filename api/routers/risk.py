@@ -157,8 +157,9 @@ def predict_threat():
     prediction = int(model_loader.disease_model.predict(new_data)[0])
 
     threat = "Early Blight" if prediction == 1 else "Late Blight"
-
+    risk = analyze_disease_risk(threat)
     return {
         "status": "success",
-        "Disease_Threat": threat
+        "Disease_Threat": threat,
+        "Risk_Level": risk['risk_level']
     }
